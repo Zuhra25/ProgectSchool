@@ -27,14 +27,10 @@ public class FacultyController {
     public Faculty createFaculty(@RequestBody Faculty faculty) {
         return facultyService.addFaculty(faculty);
     }
-
     @PutMapping
     public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty) {
-        Faculty foundFaculty = facultyService.editFaculty(faculty);
-        if (foundFaculty == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(foundFaculty);
+        facultyService.editFaculty(faculty);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("{id}")
@@ -45,10 +41,6 @@ public class FacultyController {
 
     @GetMapping("/color/{color}")
     public ResponseEntity<List<Faculty>> findFacultyByColor(@PathVariable String color) {
-        if (color != null && !color.isBlank()) {
-            return ResponseEntity.ok(facultyService.findFacultyByColor(color));
-        }
-        return ResponseEntity.ok(Collections.emptyList());
+        return ResponseEntity.ok(facultyService.findFacultyByColor(color));
     }
-
 }
