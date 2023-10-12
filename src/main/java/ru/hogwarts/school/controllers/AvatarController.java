@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+
 @RestController
 @RequestMapping
 public class AvatarController {

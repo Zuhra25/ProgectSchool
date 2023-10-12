@@ -17,6 +17,7 @@ import java.nio.file.Path;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
+
 @Service
 @Transactional
 public class AvatarService {
