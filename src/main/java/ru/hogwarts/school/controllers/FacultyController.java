@@ -6,7 +6,6 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -48,7 +47,7 @@ public class FacultyController {
     }
 
     @GetMapping("/name-or-color")
-    public Set<Faculty> findByColorOrName(@RequestParam String param) {
+    public Set<Faculty> findByColorOrName(@RequestParam("param") String param) {
         return facultyService.findByColorOrName(param);
     }
 

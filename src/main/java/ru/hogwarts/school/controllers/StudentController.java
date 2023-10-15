@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controllers;
 
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -12,7 +12,7 @@ import ru.hogwarts.school.model.Student;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class StudentControllerTests {
+public class RestTemplateTests {
 
     @LocalServerPort
     private int port;
@@ -25,7 +25,7 @@ public class StudentControllerTests {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    public StudentControllerTests() {
+    public RestTemplateTests() {
     }
 
     @Test
