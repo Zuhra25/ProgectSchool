@@ -1,5 +1,6 @@
 package ru.hogwarts.school.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class Avatar {
     private long fileSize;
     private String mediaType;
     @Lob
+//    @JsonIgnore
     private byte[] data;
     @OneToOne
     private Student student;
@@ -74,14 +76,12 @@ public class Avatar {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Avatar avatar = (Avatar) o;
-        return fileSize == avatar.fileSize && Objects.equals(id, avatar.id) && Objects.equals(filePath, avatar.filePath) && Objects.equals(mediaType, avatar.mediaType) && Arrays.equals(data, avatar.data) && Objects.equals(student, avatar.student);
+        return Objects.equals(id, avatar.id);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, filePath, fileSize, mediaType, student);
-        result = 31 * result + Arrays.hashCode(data);
-        return result;
+        return Objects.hash(id);
     }
 
     @Override
