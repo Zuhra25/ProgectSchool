@@ -26,7 +26,7 @@ public class AvatarService {
     @Value("avatars")
     private String avatarsDir;
     private final AvatarRepository avatarRepository;
-    StudentService studentService;
+    private final StudentService studentService;
 
     public AvatarService(AvatarRepository avatarRepository, StudentService studentService) {
         this.avatarRepository = avatarRepository;
