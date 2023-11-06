@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Service
 @Transactional
 public class AvatarService {
+    private final Logger logger = LoggerFactory.getLogger(AvatarService.class);
     @Value("avatars")
     private String avatarsDir;
     private final AvatarRepository avatarRepository;
@@ -34,6 +37,7 @@ public class AvatarService {
     }
 
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
+        logger.info("вызван метод uploadAvatar");
         Student student = studentService.findStudent(studentId);  //Student student = studentRepository.getById(studentId);
         Path filePath = Path.of(avatarsDir, student + "." + getExtensions(avatarFile.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());
@@ -56,6 +60,7 @@ public class AvatarService {
     }
 
     private byte[] generateDataForDB(Path filePath) throws IOException {
+        logger.info("вызван метод generateDataForDB");
         try (
                 InputStream is = Files.newInputStream(filePath);
                 BufferedInputStream bis = new BufferedInputStream(is, 1024);
@@ -67,21 +72,25 @@ public class AvatarService {
             graphics2D.drawImage(image, 0, 0, 100, height, null);
             graphics2D.dispose();
 
-            ImageIO.write(preview,getExtensions(filePath.getFileName().toString()), baos);
+            ImageIO.write(preview, getExtensions(filePath.getFileName().toString()), baos);
             return baos.toByteArray();
         }
     }
 
 
     private String getExtensions(String fileName) {
+        logger.info("вызван метод getExtensions");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
     public Avatar findAvatar(long studentId) {
+        logger.info("вызван метод findAvatar");
         return avatarRepository.findByStudentId(studentId).orElse(new Avatar());
     }
+
     public List<Avatar> getAllAvatarStudentPage(Integer pageNumber, Integer pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageNumber-1, pageSize);
+        logger.info("вызван метод getAllAvatarStudentPage");
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepository.findAll(pageRequest).getContent();
     }
 }
