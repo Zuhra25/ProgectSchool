@@ -1,7 +1,10 @@
 package ru.hogwarts.school.controllers;
 
+
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
@@ -11,7 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/student")
 public class StudentController {
-
     private final StudentService studentService;
 
     public StudentController(StudentService studentService) {
@@ -19,12 +21,8 @@ public class StudentController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable long id) {
-        Student student = studentService.findStudent(id);
-        if (student == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(student);
+    public Student getStudent(@PathVariable long id) {
+        return studentService.findStudent(id);
     }
 
     @PostMapping
@@ -34,12 +32,8 @@ public class StudentController {
 
     @PutMapping
     public ResponseEntity<Student> editStudent(@RequestBody Student student) {
-        Student foundStudent = studentService.editStudent(student);
-        if (foundStudent == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(foundStudent);
-
+        studentService.editStudent(student);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("{id}")
@@ -50,9 +44,15 @@ public class StudentController {
 
     @GetMapping("/age/{age}")
     public ResponseEntity<List<Student>> findStudentByAge(@PathVariable int age) {
-        if (age > 0) {
-            return ResponseEntity.ok(studentService.findStudentByAge(age));
-        }
-        return ResponseEntity.ok(Collections.emptyList());
+        return ResponseEntity.ok(studentService.findStudentByAge(age));
+    }
+
+    @GetMapping("/age-between")
+    public List<Student> findByAgeBetween(@RequestParam int min, @RequestParam int max) {
+        return studentService.findByAgeBetween(min, max);
+    }
+    @GetMapping("/faculty-by-student-id")
+    public Faculty getFacultyByStudentId (@RequestParam long id) {
+        return studentService.getFacultyByStudentId(id);
     }
 }
