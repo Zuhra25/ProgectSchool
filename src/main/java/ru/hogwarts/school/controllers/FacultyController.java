@@ -55,4 +55,8 @@ public class FacultyController {
     public List<Student> getStudentsByFacultyId(@RequestParam long id) {
         return facultyService.getStudentsByFacultyId(id);
     }
+    @GetMapping("/longest-faculty-name")
+    public List<String> longestFacultyName() {
+        return facultyService.longestFacultyName();
+    }
 }

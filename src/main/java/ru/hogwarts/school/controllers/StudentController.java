@@ -1,6 +1,8 @@
 package ru.hogwarts.school.controllers;
 
 
+import liquibase.pro.packaged.I;
+import liquibase.pro.packaged.S;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,8 +53,19 @@ public class StudentController {
     public List<Student> findByAgeBetween(@RequestParam int min, @RequestParam int max) {
         return studentService.findByAgeBetween(min, max);
     }
+
     @GetMapping("/faculty-by-student-id")
-    public Faculty getFacultyByStudentId (@RequestParam long id) {
+    public Faculty getFacultyByStudentId(@RequestParam long id) {
         return studentService.getFacultyByStudentId(id);
+    }
+
+    @GetMapping("/staring-with-letter")
+    public List<String> staringWithLetter(@RequestParam String startLetter) {
+        return studentService.staringWithLetter(startLetter);
+    }
+
+    @GetMapping("/avg-age-of-all-students")
+    public Double avgAgeStudent() {
+        return studentService.avgAgeStudent();
     }
 }

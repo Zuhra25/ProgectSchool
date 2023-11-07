@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 
+import liquibase.pro.packaged.L;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -89,5 +90,20 @@ public class StudentService {
     public List<QueryByStudent> getLastFiveStudent() {
         logger.info("вызван метод getLastFiveStudent");
         return studentRepository.getLastFiveStudent();
+    }
+
+    public List<String> staringWithLetter(String startLetter) {
+        return studentRepository.findAll().stream()
+                .map(student -> student.getName().toUpperCase())
+                .filter((name -> name.startsWith(startLetter.toUpperCase())))
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    public Double avgAgeStudent() {
+        return studentRepository.findAll().stream()
+                .mapToDouble(Student::getAge)
+                .average()
+                .orElse(0);
     }
 }

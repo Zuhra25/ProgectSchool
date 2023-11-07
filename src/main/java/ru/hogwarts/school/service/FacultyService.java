@@ -71,4 +71,11 @@ public class FacultyService {
         logger.info("вызван метод getStudentsByFacultyId");
         return studentService.getByFacultyId(id);
     }
+
+    public List<String> longestFacultyName() {
+        return Collections.singletonList(facultyRepository.findAll().stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparingInt(String::length))
+                .orElse("список пуст"));
+    }
 }
