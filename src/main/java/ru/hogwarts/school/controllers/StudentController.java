@@ -68,4 +68,14 @@ public class StudentController {
     public Double avgAgeStudent() {
         return studentService.avgAgeStudent();
     }
+
+    @GetMapping("/get-all-name-in-console")
+    public void getAllNameInConsoleWithThread() {
+        studentService.getAllNameInConsoleWithThread();
+    }
+    @GetMapping("/get-all-name-in-console-sync")
+    public void getAllNameInConsoleWithThreadSync() {
+        studentService.getAllNameInConsoleWithThreadSync();
+    }
+
 }

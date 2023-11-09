@@ -106,4 +106,54 @@ public class StudentService {
                 .average()
                 .orElse(0);
     }
+
+
+    public void getAllNameInConsoleWithThread() {
+        List<String> stringList = studentRepository.findAll().stream()
+                .map(Student::getName)
+                .limit(6)
+                .collect(Collectors.toList());
+        System.out.println("поток:");
+
+        printStudent(stringList.get(0));
+        printStudent(stringList.get(1));
+
+        new Thread(() -> {
+            printStudent(stringList.get(2));
+            printStudent(stringList.get(3));
+        }).start();
+
+        new Thread(() -> {
+            printStudent(stringList.get(4));
+            printStudent(stringList.get(5));
+        }).start();
+    }
+
+    public void getAllNameInConsoleWithThreadSync() {
+        List<String> stringList = studentRepository.findAll().stream()
+                .map(Student::getName)
+                .limit(6)
+                .collect(Collectors.toList());
+        System.out.println("синхронизированный поток:");
+
+        printStudentSync(stringList.get(0));
+        printStudentSync(stringList.get(1));
+
+        new Thread(() -> {
+            printStudentSync(stringList.get(2));
+            printStudentSync(stringList.get(3));
+        }).start();
+
+        new Thread(() -> {
+            printStudentSync(stringList.get(4));
+            printStudentSync(stringList.get(5));
+        }).start();
+    }
+    private void printStudent(String studentName) {
+        System.out.printf("%s:  %s%n", Thread.currentThread().getName(), studentName);
+    }
+    private synchronized void printStudentSync(String studentName) {
+        System.out.printf("%s:  %s%n", Thread.currentThread().getName(), studentName);
+    }
+
 }
